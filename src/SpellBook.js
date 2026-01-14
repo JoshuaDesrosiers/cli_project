@@ -1,11 +1,33 @@
 // This file will handle the cart-related functionality of the application.
 const prompt = require('prompt-sync')({ sigint: true });
 
-class Order{
-  
+let maxAge=120
+
+let order = {
+  items:[],
+  view:function(){
+    for(let x in this.items)
+      console.log(this.items[x][0],':','details: ',this.items[x][1].join(', '),'| number: ', x)
+  },
+  cancel:function(num){
+    let _ =this.items[num]
+    console.log('removed:',_[0],':','details: ',_[1].join(', '),'| number: ', num)
+    this.items.splice(num,1)
+    console.log('\nnew order\n')
+    this.view()
+  },
+  order:function(){
+    maxAge=maxAge-this.items.length
+    this.items=[]
+    console.log('order complete, thank you!')
+    console.log('your new max life age is',maxAge,'thank you for your donation of',120-maxAge,'years!!')
+  }
 }
+
 let __help = `
 for help obviously since you are here you probably typed: --help...
+
+ẹ̷͇͈͖̺̝̩͙̜̉͒͘ͅv̵̰͉͕̟̞̭̰̬̓ȩ̵̨͇̻̣̩̦̝͖͋̈́̆̒r̴̢̩̙͇̒̉̈́̓̈́̄̍̃̀̊̐̔͘͜͝͝y̷͚͈̼̯̓͗̇̈́̅͝ ̷̣̗̠̲͙̝̭̳͕̄̿͌̒ǫ̸̡͔̪̼̫͚͓̱̩̃͜r̷̤͚̬͙̙͚̝̙͍͈̗̺̠͋͊d̶̨̻̻̫̥̄̂͑̅ē̷̱ȑ̴̻͓̻̹͌̚͜ ̵̠̬̦̭͔̰͓̬̱͙̣͍̻̝̰͛̉̋̿͂̌̋̓́̍̎͑͘͠ţ̶̧̨̩͎͍̙̭͇̻̰̞̿̋̅̋̊̚̚ḁ̸̘͖̓͒̑̓̎̊̓k̵̹͗̌̀͝e̴͎̭̘̮̹̳̦̫̼̺̲̍̇͌̓̀̋͜͝s̸̨̢̠͖̱̮̠͚̘͓͇̝͖̰̍̍́̾́̇͘ ̶̨̢̹̠̫͔͍͎̘̠̺͙̻͖͇̽̇̑̇͛̈́̄͂̑͝à̷̬̒̏̇́̓̊͐͑̿̽̄̈͝͠ ̸̢̙̜̩̼͓͕̖̲͓̥̪͕́͑̆̋̂͑͘y̸̺̓͐̎̍͜e̵̯̦̽̓́à̴̬̗̮́͂ȓ̴͚̖̦̺̖̼̲̻̆̑̓́͝ ̸̧̢̡̜͈̦̻̜̹̏̋̄͛̈́̄̓͐͒̽̈́̊̀̎͜͠o̵̰͎͎̝̝̝͉̮̳͐̑̉̈́̍̓͝f̶̠̳̹̖̦͈̊̊̍̀͗̐́̊͌̈̄̈́̌̉̒f̶̼͎̤͉̭̜̟̋͐̋̑̈̽͐̽́́̊̃̽͗͝ ̴̨̩̼̺̘̟̖̮̺̠̦͓̃͌̾̅̆ơ̶̡̘̜͕̥͇̳̭̠̠͈̎̏̃̽̓̽͑̓̅̿̊̇̕f̴̛͇͗͌͒̇̓̍͝ͅ ̶͈̲̮̞̼̏̑̒̆̔̂̚͘͝y̸̨͈̦̺̟̹͓̦̞̬̰̭̓̚ö̵̺́̏̾̈́̽̀̓̀̽͗̃̌ư̵̢̢̢̛̦̝̖̼͇̯̖͙̝̓͋̽͌̂̒̓͘ŕ̸̮͕̖̳͇̟̬͔̞̇̏̀̈ ̵̨̛̻̬̝̙̠̃̔̒̽l̵̨̩̰͎̹̄̊̇̔̽̇͋͋͛̇̑͑͆́ͅi̴̢̡̨̮̻̮̤̞̼̞͇̓̀̂̐̏͋̀͗̕͝f̵̼̥͙̼͉̻̦̔̏́́ě̸̯͉̭̤̱͇͔̤̱̭̽͗̽͋̚ ̸͉̱̥͐͊̿̊͐̏͘͝ä̶̧̗̖͕̣̫̅̎̌̇̑̐͘͝ǹ̶͕̙̓̎̇̉͋̍̔͑̈̃̍̚̕d̷̻͙̤̣͛̄̾̽̋ ̷̡̡̮͕̳̜͖͙̠̭͍̮͒̿̌̽͊͂́̕g̸̡̧̲̭̦͕̹͖͓̪̲̮̑̇͘ͅḯ̸̲̱̟͉̹̗̳͎͓̳͖̮̮̯͒̅̍͝ͅv̷͉̳̦̭̀̕e̵͔̘̼͒̌̌͗͒̅s̶̢̡̡̝̰̬͎̭̥̫̭̜̝̈̊͗͛͗̈́ ̴̲̜̞̫̞̻̯̳͕̻̌̂͜į̸̛̹͓̀͊t̵̡̧͈̲̩̺̹̞͈͍̞͛͋̒̂̉ ̸̭̟͎͎̼͉̫̙̦̮̻̈̽̈͋̏̊̈́͆̎ṫ̴̰͉̦͖͓̻̩̝͔̔͗̈̈́͒̃̇̊͜͝ǫ̵̛̞̹͖͈͖͍̭̺̠͗́̋͊̏͂̽̔͋͘͝ ̵̨̻̭̬̗̠͈̥̭̘̺̼̟̽m̷̹̙̊̍͒̍͒̿ḛ̷͆̈́!̶̤̗̥̥̹̩̃̒͌͗̎̌̇̒̎͂̃͒̑͘
 
 to list spells you can order type: --spells
 
@@ -120,6 +142,10 @@ class SpellBook {
       eval(`console.log(${command[0].replaceAll('--','__')})`)
       return true
     }
+    if(command[0].startsWith('*')){
+      eval(`order.${command[0].replaceAll('*','')}(${command.length>1?command[1]:''})`)
+      return true
+    }
     //if spell no exist
     if(!Object.keys(SpellBook.spells).some(x=>x===command[0]))
       return false
@@ -138,77 +164,11 @@ class SpellBook {
       console.log('\n')
       p++
     }
+    order.items.push([command[0],[...param]])
     console.log(SpellBook.spells[command[0]][2],command[0], 'has been added to the order!')
     return true
   }
 
 }
 
-const cart = [
-  {
-    description: 'Complete the CLI Task Manager project',
-    isComplete: true,
-  },
-  {
-    description: 'Answer investigation questions',
-    isComplete: false,
-  },
-];
-const befriend = () =>{
-  let active = true;
-  console.log('to cancel order at any point use $misorder command')
-  while(active){
-    command = prompt('Victim $')
-    command!='misorder'
-  }
-}
-
-const addTask = (description) => {
-  if (!description) {
-    console.log('\nNo description provided.');
-    return;
-  }
-
-  // We could also have just written this code that avoids creating a new variable:
-  const newTask = {
-    description,
-    isComplete: false,
-  };
-  cart.push(newTask);
-  console.log(`\nTask "${newTask.description}" added!`);
-};
-
-const completeTask = (taskIndex) => {
-  const task = cart[taskIndex];
-
-  if (!task) {
-    console.log('\nInvalid task number.');
-    return;
-  }
-
-  task.isComplete = true;
-  console.log(`\nTask "${task.description}" marked as completed!`);
-};
-
-const viewTasks = () => {
-  if (cart.length === 0) {
-    console.log('\nNo cart yet! Add one to get started.');
-    return;
-  }
-
-  console.log('\nYour Tasks:');
-  cart.forEach((task, index) => {
-    // Prints out the task list like this: 
-    // 1. [x] Complete the CLI Task Manager project
-    // 2. [ ] Answer investigation questions
-    console.log(`${index + 1}. [${task.isComplete ? 'x' : ' '}] ${task.description}`);
-  });
-  console.log();
-};
-
-const clearTasks = () => {
-  cart.length = 0;
-  console.log('\nAll cart cleared!');
-};
-
-module.exports = { befriend, viewTasks, completeTask, clearTasks, SpellBook};
+module.exports = { SpellBook};

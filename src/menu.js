@@ -1,7 +1,7 @@
 // This file will display the menu and handle the user's input.
 
 const prompt = require('prompt-sync')({ sigint: true });
-const {befriend, completeTask, clearTasks,SpellBook } = require('./tasks.js');
+const {SpellBook} = require('./SpellBook.js');
 const {ConsoleTrix} = require('./consoleTrix.js')
 
 const showMenu = () => {
